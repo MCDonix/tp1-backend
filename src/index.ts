@@ -13,4 +13,57 @@ const connectDB = async () => {
   }
 }
 
+const pokemonSchema = new Schema({
+  ncard: { type: Number, required: true, unique: true },
+  name: { type: String, required: true, unique: true },
+  ps: { type: Number, required: true },
+  hability: { type: String, required: true }
+
+})
+
+const Pokemon = model("pokemon", pokemonSchema)
+
+//Funcion para agregar pokemon
+
+const addNewPokemon = async () => {
+  try {
+  } catch (error) {
+  }
+}
+
+//Funcion para obtener lista de pokemones agregados
+
+const getAllPokemon = async () => {
+  try {
+  } catch (error) {
+  }
+}
+
+//Funcion para Obtener pokemon por ID
+
+const getPokemon = async (id: string) => {
+  try {
+  } catch (error) {
+  }
+
+}
+
+//Funcion para editar pokemon
+
+const updatePokemon = async (id: string) => {
+  try {
+  } catch (error) {
+  }
+}
+
+//Funcion para eliminar pokemon
+
+const deletePokemon = async (id: string) => {
+  try {
+  } catch (error) {
+  }
+}
+
+
+
 connectDB()
