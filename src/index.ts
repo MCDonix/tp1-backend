@@ -13,21 +13,40 @@ const connectDB = async () => {
   }
 }
 
+interface IPokemon {
+  ncard: number
+  name: string
+  ps: number
+  hability: string
+
+}
+
 const pokemonSchema = new Schema({
   ncard: { type: Number, required: true, unique: true },
   name: { type: String, required: true, unique: true },
   ps: { type: Number, required: true },
-  hability: { type: String, required: true }
+  hability: { type: String, required: true },
+}, { versionKey: false })
 
-})
-
-const Pokemon = model("pokemon", pokemonSchema)
+const Pokemon = model("Pokemon", pokemonSchema)
 
 //Funcion para agregar pokemon
 
-const addNewPokemon = async () => {
+const addNewPokemon = async (newPokemon: IPokemon) => {
   try {
-  } catch (error) {
+    const { ncard, name, ps, hability } = newPokemon
+    if (!ncard || !name || !ps || !hability) {
+      return { succes: false, error: "invalid data" }
+    }
+    const newFileToDb = new Pokemon({ ncard, name, ps, hability })
+    await newFileToDb.save()
+    return {
+      succes: true,
+      data: newFileToDb,
+      message: "Pokemon added "
+    }
+  } catch (error: any) {
+    return { success: false, error: error.message }
   }
 }
 
@@ -35,7 +54,17 @@ const addNewPokemon = async () => {
 
 const getAllPokemon = async () => {
   try {
-  } catch (error) {
+    const allPokemon = await Pokemon.find()
+    return {
+      success: true,
+      data: allPokemon,
+      message: "list of all pokemon"
+    }
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message
+    }
   }
 }
 
@@ -45,17 +74,15 @@ const getPokemon = async (id: string) => {
   try {
   } catch (error) {
   }
-
 }
 
 //Funcion para editar pokemon
 
-const updatePokemon = async (id: string) => {
+const updatePokemon = async (id: string, newData: Partial<IPokemon>) => {
   try {
   } catch (error) {
   }
 }
-
 //Funcion para eliminar pokemon
 
 const deletePokemon = async (id: string) => {
@@ -64,6 +91,16 @@ const deletePokemon = async (id: string) => {
   }
 }
 
+const main = async () => {
+  connectDB()
+
+  //const savedPokemon = await addNewPokemon({ ncard: 11, name: "Charizard", ps: 150, hability: "Quema Energia" })
+
+  const allPokemon = await getAllPokemon()
+
+  console.log(allPokemon)
+}
+
+main()
 
 
-connectDB()
