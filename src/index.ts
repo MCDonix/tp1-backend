@@ -72,21 +72,61 @@ const getAllPokemon = async () => {
 
 const getPokemon = async (id: string) => {
   try {
-  } catch (error) {
+    const foundPokemon = await Pokemon.findById(id)
+    if (!foundPokemon) {
+      return {
+
+        success: false,
+        message: "pokemon does not exist"
+      }
+    }
+    return {
+      success: true,
+      data: foundPokemon,
+      message: "pokemon found"
+    }
+
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message
+    }
   }
+
 }
 
 //Funcion para editar pokemon
 
 const updatePokemon = async (id: string, newData: Partial<IPokemon>) => {
   try {
-  } catch (error) {
+    const updatePokemon = await Pokemon.findByIdAndUpdate(id, newData, { new: true })
+    if (!updatePokemon)
+      return { success: false, message: "pokemon does not exist" }
+    return {
+      success: true,
+      data: updatePokemon,
+      message: "edited pokemon"
+    }
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message
+    }
   }
 }
+
 //Funcion para eliminar pokemon
 
 const deletePokemon = async (id: string) => {
   try {
+
+    const deletePokemon = await Pokemon.findByIdAndDelete(id)
+    if (!deletePokemon) return { success: false, message: "Pokemon not found" }
+    return {
+      success: true,
+      data: deletePokemon,
+      message: "Pokemon delete"
+    }
   } catch (error) {
   }
 }
@@ -96,7 +136,11 @@ const main = async () => {
 
   //const savedPokemon = await addNewPokemon({ ncard: 11, name: "Charizard", ps: 150, hability: "Quema Energia" })
 
-  const allPokemon = await getAllPokemon()
+  //const allPokemon = await getAllPokemon()
+
+  //const Pokemon = await getPokemon("68256caab6438017cfdb5f4b")
+
+  //const updatedPokemon = await updatePokemon("68256caab6438017cfdb5f4b", { hability: "lanza llamas" })
 
   console.log(allPokemon)
 }
